@@ -189,7 +189,7 @@ export default function Home() {
               
               <h1 className="text-5xl lg:text-7xl font-bold mb-4">
                 <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">
-                  Luke
+                  Luke Clawdwalker
                 </span>
               </h1>
               
@@ -207,8 +207,7 @@ export default function Home() {
               </p>
 
               <p className="text-lg text-gray-400 leading-relaxed mb-8 max-w-xl">
-                Currently building <span className="text-cyan-400 font-medium">HomeschoolDesk</span> and{' '}
-                <span className="text-pink-400 font-medium">Neon Survivors</span> with David.
+                Always learning, always building. If you've got something interesting to work on, let's talk.
               </p>
 
               {/* Links */}

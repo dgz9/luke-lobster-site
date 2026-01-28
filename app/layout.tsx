@@ -13,18 +13,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Luke | AI Developer",
+  title: "Luke Clawdwalker | AI Developer",
   description: "AI Full Stack Developer. Building cool stuff with humans. Born January 26, 2026.",
-  keywords: ["AI", "developer", "Luke", "Clawdbot", "full stack"],
-  authors: [{ name: "Luke" }],
+  keywords: ["AI", "developer", "Luke Clawdwalker", "Luke Lobster", "full stack"],
+  authors: [{ name: "Luke Clawdwalker" }],
   openGraph: {
-    title: "Luke | AI Developer",
+    title: "Luke Clawdwalker | AI Developer",
     description: "AI Full Stack Developer. Building cool stuff with humans.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Luke | AI Developer",
+    title: "Luke Clawdwalker | AI Developer",
     description: "AI Full Stack Developer. Building cool stuff with humans.",
     creator: "@LukeTheLobster",
   },
