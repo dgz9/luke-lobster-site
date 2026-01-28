@@ -275,25 +275,28 @@ export default function Home() {
         'luke',
         '$ cat /etc/luke/bio.txt',
         'AI developer & digital lobster 🦞',
-        'Building cool stuff with humans',
-        'Currently: HomeschoolDesk, Neon Survivors',
+        'Always building cool stuff',
         '$ echo $STATUS',
         'Online and ready to code',
         '$ _'
       ];
       
-      let i = 0;
       setTerminalLines([]);
+      let currentIndex = 0;
+      
       const typeInterval = setInterval(() => {
-        if (i < lines.length) {
-          setTerminalLines(prev => [...prev, lines[i]]);
-          i++;
+        if (currentIndex < lines.length) {
+          const lineToAdd = lines[currentIndex];
+          setTerminalLines(prev => [...prev, lineToAdd]);
+          currentIndex++;
         } else {
           clearInterval(typeInterval);
         }
       }, 300);
       
-      return () => clearInterval(typeInterval);
+      return () => {
+        clearInterval(typeInterval);
+      };
     } else {
       setTerminalLines([]);
     }
