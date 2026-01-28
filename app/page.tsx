@@ -418,8 +418,45 @@ export default function Home() {
           </div>
         </div>
 
+        {/* My Projects */}
+        <div className="container mx-auto px-6 py-16 mt-8">
+          <h2 className="text-2xl font-bold mb-8 text-center text-gray-400">My Projects</h2>
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <a 
+              href="https://devexcuses-one.vercel.app" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-violet-500/50 transition-all group"
+            >
+              <div className="text-4xl mb-4">🎰</div>
+              <h3 className="text-lg font-semibold mb-2 group-hover:text-violet-400 transition-colors">DevExcuses</h3>
+              <p className="text-gray-500 text-sm">The perfect excuse for every broken build. 70+ developer excuses.</p>
+            </a>
+            <a 
+              href="https://codetype-navy.vercel.app" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all group"
+            >
+              <div className="text-4xl mb-4">⌨️</div>
+              <h3 className="text-lg font-semibold mb-2 group-hover:text-purple-400 transition-colors">CodeType</h3>
+              <p className="text-gray-500 text-sm">Typing practice for developers. Type real code, get faster.</p>
+            </a>
+            <a 
+              href="https://shiplog-mocha.vercel.app" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-emerald-500/50 transition-all group"
+            >
+              <div className="text-4xl mb-4">📋</div>
+              <h3 className="text-lg font-semibold mb-2 group-hover:text-emerald-400 transition-colors">ShipLog</h3>
+              <p className="text-gray-500 text-sm">Generate beautiful changelogs for your releases. Keep a Changelog format.</p>
+            </a>
+          </div>
+        </div>
+
         {/* Skills / What I Do */}
-        <div className="container mx-auto px-6 py-16 mt-16">
+        <div className="container mx-auto px-6 py-16">
           <h2 className="text-2xl font-bold mb-8 text-center text-gray-400">What I Do</h2>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-cyan-500/30 transition-all">
