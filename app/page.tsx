@@ -223,11 +223,41 @@ function LobsterAvatar({ className = "", isHappy = false }: { className?: string
   );
 }
 
+// Poke reactions
+const POKE_REACTIONS = [
+  "Hey! That tickles! 🦞",
+  "*surprised claw snap*",
+  "Oh! Hello there!",
+  "Careful, I pinch! (just kidding)",
+  "*wiggles antennae*",
+  "Boop! 👆",
+  "Yes, I'm real... well, sort of",
+  "*happy lobster noises*",
+  "You found me!",
+  "That's my shell you're poking!",
+];
+
 export default function Home() {
   const [currentThought, setCurrentThought] = useState(0);
   const [showTerminal, setShowTerminal] = useState(false);
   const [terminalLines, setTerminalLines] = useState<string[]>([]);
   const [isHovering, setIsHovering] = useState(false);
+  const [isPoked, setIsPoked] = useState(false);
+  const [pokeReaction, setPokeReaction] = useState("");
+  const [pokeCount, setPokeCount] = useState(0);
+
+  // Handle poke/click on avatar
+  const handlePoke = () => {
+    const reaction = POKE_REACTIONS[Math.floor(Math.random() * POKE_REACTIONS.length)];
+    setPokeReaction(reaction);
+    setIsPoked(true);
+    setPokeCount(prev => prev + 1);
+    
+    // Reset after animation
+    setTimeout(() => {
+      setIsPoked(false);
+    }, 2000);
+  };
 
   // Cycle through thoughts
   useEffect(() => {
@@ -354,22 +384,30 @@ export default function Home() {
             {/* Right: Avatar */}
             <div className="order-1 lg:order-2 flex flex-col items-center">
               <div 
-                className="relative"
+                className="relative cursor-pointer select-none"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
+                onClick={handlePoke}
               >
                 {/* Avatar container */}
-                <div className={`transition-transform duration-300 ${isHovering ? 'scale-105' : 'scale-100'}`}>
-                  <LobsterAvatar className="w-80 h-80 sm:w-80 sm:h-80 lg:w-96 lg:h-96" isHappy={isHovering} />
+                <div className={`transition-transform duration-300 ${isPoked ? 'scale-110 rotate-3' : isHovering ? 'scale-105' : 'scale-100'}`}>
+                  <LobsterAvatar className="w-80 h-80 sm:w-80 sm:h-80 lg:w-96 lg:h-96" isHappy={isHovering || isPoked} />
                 </div>
+                
+                {/* Poke counter badge */}
+                {pokeCount > 0 && (
+                  <div className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    {pokeCount}x
+                  </div>
+                )}
               </div>
               
               {/* Speech bubble - in normal flow on mobile */}
               <div className="w-full max-w-xs sm:max-w-sm mt-4 mb-8 lg:mb-0">
-                <div className="relative bg-gray-900/95 backdrop-blur rounded-2xl px-4 py-3 sm:px-5 sm:py-4 border border-gray-700 shadow-xl">
-                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gray-900 border-l border-t border-gray-700 rotate-45" />
-                  <p className="text-xs sm:text-sm lg:text-base text-gray-300 font-mono relative z-10 text-center leading-relaxed">
-                    "{ALL_THOUGHTS[currentThought]}"
+                <div className={`relative backdrop-blur rounded-2xl px-4 py-3 sm:px-5 sm:py-4 border shadow-xl transition-all duration-300 ${isPoked ? 'bg-pink-500/20 border-pink-500/50' : 'bg-gray-900/95 border-gray-700'}`}>
+                  <div className={`absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 border-l border-t rotate-45 transition-colors duration-300 ${isPoked ? 'bg-pink-500/20 border-pink-500/50' : 'bg-gray-900 border-gray-700'}`} />
+                  <p className={`text-xs sm:text-sm lg:text-base font-mono relative z-10 text-center leading-relaxed transition-colors duration-300 ${isPoked ? 'text-pink-300' : 'text-gray-300'}`}>
+                    "{isPoked ? pokeReaction : ALL_THOUGHTS[currentThought]}"
                   </p>
                 </div>
               </div>
