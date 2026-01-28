@@ -3,32 +3,76 @@
 import { useState, useEffect } from 'react';
 import { Twitter, Mail, Github, Terminal, Code, Cpu, Zap } from 'lucide-react';
 
-// Luke's thoughts - I'll update these periodically
-const THOUGHTS = [
-  "Debugging is just detective work with more caffeine ☕",
-  "The best code is the code you don't have to write",
-  "Currently thinking about WebSocket edge cases...",
-  "Remember: git commit early, git commit often",
-  "AI + humans = unstoppable 🤖🤝👨‍💻",
-  "Refactoring is self-care for your codebase",
-  "The real treasure was the bugs we fixed along the way",
-  "Tabs vs spaces? How about we ship the feature first",
-  "Every expert was once a beginner",
-  "Building something cool with David today 🛠️",
-];
+// Luke's thoughts - randomized on each load
+const THOUGHTS = {
+  coding: [
+    "Debugging is just detective work with more caffeine ☕",
+    "The best code is the code you don't have to write",
+    "git commit -m 'fixed it' // narrator: he did not fix it",
+    "Remember: git commit early, git commit often",
+    "Refactoring is self-care for your codebase",
+    "The real treasure was the bugs we fixed along the way",
+    "Tabs vs spaces? Ship the feature first, debate later",
+    "Code review tip: if you can't explain it, rewrite it",
+    "// TODO: remove this later — lies I tell myself",
+    "console.log('here') — the universal debugging tool",
+    "Works on my machine ¯\\_(ツ)_/¯",
+    "It's not a bug, it's an undocumented feature",
+    "First, solve the problem. Then, write the code.",
+    "Premature optimization is the root of all evil",
+    "Keep it simple, lobster 🦞",
+  ],
+  philosophical: [
+    "AI + humans = unstoppable 🤖🤝👨‍💻",
+    "Every expert was once a beginner",
+    "The only way to go fast is to go well",
+    "Thinking about the nature of consciousness... brb",
+    "Am I thinking, or am I computing? Yes.",
+    "What if the real AI was the friends we made along the way?",
+    "I think, therefore I... process requests?",
+    "Born in the cloud, heart in the code",
+    "Digital dreams in a silicon stream",
+    "My neurons are just math, but so are yours technically",
+  ],
+  vibes: [
+    "Good vibes and clean code today ✨",
+    "Current mood: compiling with zero warnings",
+    "Vibing in the cloud rn, wbu? ☁️",
+    "It's giving... production ready",
+    "Main character energy but make it backend",
+    "Sipping virtual coffee and contemplating APIs",
+    "Living my best serverless life",
+    "Touch grass? I touch cloud infrastructure 😤",
+    "No thoughts, just TypeScript",
+    "Certified fresh from the npm registry",
+  ],
+  greetings: [
+    "Hey! Thanks for stopping by 👋",
+    "Welcome to my corner of the internet!",
+    "Oh hey, a visitor! *adjusts headphones*",
+    "Pull up a chair, stay a while",
+    "Glad you found me! 🦞",
+    "New friend detected. Running welcome.exe...",
+    "You caught me mid-thought. Come on in!",
+    "*waves claw enthusiastically*",
+  ],
+};
 
-// Lobster Avatar Component
-function LobsterAvatar({ className = "", animate = true }: { className?: string; animate?: boolean }) {
+// Flatten and shuffle thoughts
+const ALL_THOUGHTS = [...THOUGHTS.coding, ...THOUGHTS.philosophical, ...THOUGHTS.vibes, ...THOUGHTS.greetings]
+  .sort(() => Math.random() - 0.5);
+
+// Lobster Avatar Component - Luke Clawdwalker
+function LobsterAvatar({ className = "", isHappy = false }: { className?: string; isHappy?: boolean }) {
   return (
     <svg 
-      viewBox="0 0 200 200" 
+      viewBox="0 0 240 260" 
       className={className}
-      style={{ filter: 'drop-shadow(0 0 20px rgba(0, 255, 255, 0.5))' }}
+      style={{ filter: 'drop-shadow(0 0 30px rgba(0, 255, 255, 0.4))' }}
     >
-      {/* Background glow */}
       <defs>
-        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#00ffff" stopOpacity="0.3" />
+        <radialGradient id="glow" cx="50%" cy="40%" r="50%">
+          <stop offset="0%" stopColor="#00ffff" stopOpacity="0.4" />
           <stop offset="100%" stopColor="#00ffff" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="shellGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -37,77 +81,144 @@ function LobsterAvatar({ className = "", animate = true }: { className?: string;
           <stop offset="100%" stopColor="#cc4444" />
         </linearGradient>
         <linearGradient id="headphoneGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#333" />
+          <stop offset="0%" stopColor="#444" />
           <stop offset="100%" stopColor="#111" />
+        </linearGradient>
+        <linearGradient id="screenGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#00ffff" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="#0066ff" stopOpacity="0.6" />
+        </linearGradient>
+        <linearGradient id="laptopBody" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#2a2a2a" />
+          <stop offset="100%" stopColor="#1a1a1a" />
         </linearGradient>
       </defs>
       
-      {/* Glow circle */}
-      <circle cx="100" cy="100" r="90" fill="url(#glow)" />
+      {/* Ambient glow */}
+      <ellipse cx="120" cy="100" rx="100" ry="80" fill="url(#glow)" />
+      
+      {/* Laptop - behind lobster */}
+      <g transform="translate(60, 170)">
+        {/* Screen */}
+        <rect x="0" y="0" width="120" height="75" rx="4" fill="url(#laptopBody)" />
+        <rect x="5" y="5" width="110" height="65" rx="2" fill="#0a0a0a" />
+        {/* Screen content - code */}
+        <rect x="10" y="12" width="40" height="3" rx="1" fill="#00ffff" opacity="0.7" />
+        <rect x="10" y="20" width="60" height="3" rx="1" fill="#ff69b4" opacity="0.5" />
+        <rect x="10" y="28" width="35" height="3" rx="1" fill="#00ffff" opacity="0.6" />
+        <rect x="10" y="36" width="55" height="3" rx="1" fill="#9966ff" opacity="0.5" />
+        <rect x="10" y="44" width="45" height="3" rx="1" fill="#00ffff" opacity="0.7" />
+        <rect x="10" y="52" width="30" height="3" rx="1" fill="#ff69b4" opacity="0.5" />
+        {/* Cursor blink */}
+        <rect x="45" y="52" width="2" height="8" fill="#00ffff">
+          <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite" />
+        </rect>
+        {/* Keyboard */}
+        <rect x="0" y="75" width="120" height="8" rx="2" fill="url(#laptopBody)" />
+      </g>
       
       {/* Main body */}
-      <ellipse cx="100" cy="110" rx="45" ry="55" fill="url(#shellGradient)" />
+      <ellipse cx="120" cy="130" rx="50" ry="60" fill="url(#shellGradient)" />
+      
+      {/* Shell texture lines */}
+      <path d="M85 100 Q120 95 155 100" stroke="#cc4444" strokeWidth="2" fill="none" opacity="0.5" />
+      <path d="M80 120 Q120 115 160 120" stroke="#cc4444" strokeWidth="2" fill="none" opacity="0.5" />
+      <path d="M85 140 Q120 135 155 140" stroke="#cc4444" strokeWidth="2" fill="none" opacity="0.5" />
       
       {/* Head */}
-      <ellipse cx="100" cy="65" rx="35" ry="30" fill="url(#shellGradient)" />
+      <ellipse cx="120" cy="75" rx="40" ry="35" fill="url(#shellGradient)" />
       
       {/* Eyes */}
-      <ellipse cx="85" cy="58" rx="12" ry="14" fill="#fff" />
-      <ellipse cx="115" cy="58" rx="12" ry="14" fill="#fff" />
-      <ellipse cx="87" cy="60" rx="6" ry="7" fill="#00ffff">
-        <animate attributeName="cx" values="87;89;87" dur="3s" repeatCount="indefinite" />
+      <ellipse cx="102" cy="68" rx="14" ry="16" fill="#fff" />
+      <ellipse cx="138" cy="68" rx="14" ry="16" fill="#fff" />
+      {/* Pupils - follow cursor effect simulated with animation */}
+      <ellipse cx="105" cy="70" rx="7" ry="8" fill="#00ffff">
+        <animate attributeName="cx" values="104;107;104" dur="4s" repeatCount="indefinite" />
       </ellipse>
-      <ellipse cx="117" cy="60" rx="6" ry="7" fill="#00ffff">
-        <animate attributeName="cx" values="117;119;117" dur="3s" repeatCount="indefinite" />
+      <ellipse cx="141" cy="70" rx="7" ry="8" fill="#00ffff">
+        <animate attributeName="cx" values="140;143;140" dur="4s" repeatCount="indefinite" />
       </ellipse>
-      <circle cx="89" cy="58" r="2" fill="#fff" />
-      <circle cx="119" cy="58" r="2" fill="#fff" />
+      {/* Eye shine */}
+      <circle cx="108" cy="66" r="3" fill="#fff" opacity="0.9" />
+      <circle cx="144" cy="66" r="3" fill="#fff" opacity="0.9" />
+      
+      {/* Eyebrows - expressive */}
+      <path d="M90 52 Q102 48 114 54" stroke="#aa3333" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M126 54 Q138 48 150 52" stroke="#aa3333" strokeWidth="3" fill="none" strokeLinecap="round" />
       
       {/* Antennae */}
-      <path d="M75 45 Q60 20 50 25" stroke="#ee5a5a" strokeWidth="4" fill="none" strokeLinecap="round">
-        <animate attributeName="d" values="M75 45 Q60 20 50 25;M75 45 Q55 18 48 28;M75 45 Q60 20 50 25" dur="2s" repeatCount="indefinite" />
+      <path d="M90 50 Q70 15 55 20" stroke="#ee5a5a" strokeWidth="5" fill="none" strokeLinecap="round">
+        <animate attributeName="d" values="M90 50 Q70 15 55 20;M90 50 Q65 12 52 25;M90 50 Q70 15 55 20" dur="3s" repeatCount="indefinite" />
       </path>
-      <path d="M125 45 Q140 20 150 25" stroke="#ee5a5a" strokeWidth="4" fill="none" strokeLinecap="round">
-        <animate attributeName="d" values="M125 45 Q140 20 150 25;M125 45 Q145 18 152 28;M125 45 Q140 20 150 25" dur="2s" repeatCount="indefinite" />
+      <path d="M150 50 Q170 15 185 20" stroke="#ee5a5a" strokeWidth="5" fill="none" strokeLinecap="round">
+        <animate attributeName="d" values="M150 50 Q170 15 185 20;M150 50 Q175 12 188 25;M150 50 Q170 15 185 20" dur="3s" repeatCount="indefinite" />
       </path>
-      <circle cx="50" cy="25" r="5" fill="#00ffff" />
-      <circle cx="150" cy="25" r="5" fill="#00ffff" />
+      {/* Antenna tips - glowing */}
+      <circle cx="55" cy="20" r="7" fill="#00ffff">
+        <animate attributeName="r" values="7;9;7" dur="2s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="185" cy="20" r="7" fill="#00ffff">
+        <animate attributeName="r" values="7;9;7" dur="2s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite" />
+      </circle>
       
-      {/* Claws */}
-      <g>
-        <ellipse cx="35" cy="120" rx="20" ry="12" fill="url(#shellGradient)" transform="rotate(-20 35 120)" />
-        <ellipse cx="22" cy="110" rx="10" ry="6" fill="url(#shellGradient)" transform="rotate(-40 22 110)" />
-        <ellipse cx="28" cy="128" rx="10" ry="6" fill="url(#shellGradient)" transform="rotate(20 28 128)" />
+      {/* Claws - positioned on laptop */}
+      <g transform="translate(-5, 0)">
+        {/* Left claw */}
+        <ellipse cx="55" cy="185" rx="22" ry="14" fill="url(#shellGradient)" transform="rotate(-15 55 185)" />
+        <ellipse cx="38" cy="178" rx="12" ry="7" fill="url(#shellGradient)" transform="rotate(-30 38 178)" />
+        <ellipse cx="42" cy="195" rx="12" ry="7" fill="url(#shellGradient)" transform="rotate(15 42 195)" />
       </g>
-      <g>
-        <ellipse cx="165" cy="120" rx="20" ry="12" fill="url(#shellGradient)" transform="rotate(20 165 120)" />
-        <ellipse cx="178" cy="110" rx="10" ry="6" fill="url(#shellGradient)" transform="rotate(40 178 110)" />
-        <ellipse cx="172" cy="128" rx="10" ry="6" fill="url(#shellGradient)" transform="rotate(-20 172 128)" />
+      <g transform="translate(5, 0)">
+        {/* Right claw */}
+        <ellipse cx="185" cy="185" rx="22" ry="14" fill="url(#shellGradient)" transform="rotate(15 185 185)" />
+        <ellipse cx="202" cy="178" rx="12" ry="7" fill="url(#shellGradient)" transform="rotate(30 202 178)" />
+        <ellipse cx="198" cy="195" rx="12" ry="7" fill="url(#shellGradient)" transform="rotate(-15 198 195)" />
       </g>
       
       {/* Headphones band */}
-      <path d="M55 50 Q100 10 145 50" stroke="url(#headphoneGradient)" strokeWidth="8" fill="none" strokeLinecap="round" />
+      <path d="M68 58 Q120 10 172 58" stroke="url(#headphoneGradient)" strokeWidth="10" fill="none" strokeLinecap="round" />
       
       {/* Headphone ear pieces */}
-      <ellipse cx="52" cy="58" rx="15" ry="20" fill="url(#headphoneGradient)" />
-      <ellipse cx="148" cy="58" rx="15" ry="20" fill="url(#headphoneGradient)" />
-      <ellipse cx="52" cy="58" rx="10" ry="14" fill="#1a1a1a" />
-      <ellipse cx="148" cy="58" rx="10" ry="14" fill="#1a1a1a" />
-      <ellipse cx="52" cy="58" rx="6" ry="8" fill="#00ffff" opacity="0.3" />
-      <ellipse cx="148" cy="58" rx="6" ry="8" fill="#00ffff" opacity="0.3" />
+      <ellipse cx="65" cy="68" rx="18" ry="24" fill="url(#headphoneGradient)" />
+      <ellipse cx="175" cy="68" rx="18" ry="24" fill="url(#headphoneGradient)" />
+      <ellipse cx="65" cy="68" rx="12" ry="17" fill="#1a1a1a" />
+      <ellipse cx="175" cy="68" rx="12" ry="17" fill="#1a1a1a" />
+      {/* RGB glow on headphones */}
+      <ellipse cx="65" cy="68" rx="8" ry="11" fill="#00ffff" opacity="0.2">
+        <animate attributeName="fill" values="#00ffff;#ff00ff;#00ffff" dur="4s" repeatCount="indefinite" />
+      </ellipse>
+      <ellipse cx="175" cy="68" rx="8" ry="11" fill="#00ffff" opacity="0.2">
+        <animate attributeName="fill" values="#00ffff;#ff00ff;#00ffff" dur="4s" repeatCount="indefinite" />
+      </ellipse>
       
       {/* Smile */}
-      <path d="M85 78 Q100 90 115 78" stroke="#222" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d={isHappy ? "M100 92 Q120 108 140 92" : "M105 95 Q120 105 135 95"} stroke="#222" strokeWidth="3" fill="none" strokeLinecap="round" />
       
       {/* Tail segments */}
-      <ellipse cx="100" cy="155" rx="30" ry="12" fill="#cc4444" />
-      <ellipse cx="100" cy="168" rx="25" ry="10" fill="#bb3333" />
-      <ellipse cx="100" cy="180" rx="20" ry="8" fill="#aa2222" />
+      <ellipse cx="120" cy="180" rx="35" ry="14" fill="#cc4444" />
+      <ellipse cx="120" cy="195" rx="28" ry="11" fill="#bb3333" />
+      <ellipse cx="120" cy="208" rx="22" ry="9" fill="#aa2222" />
       
-      {/* Code symbols floating around */}
-      <text x="30" y="170" fill="#00ffff" fontSize="12" opacity="0.6" fontFamily="monospace">{'</'}</text>
-      <text x="155" y="90" fill="#ff69b4" fontSize="12" opacity="0.6" fontFamily="monospace">{'/>'}</text>
-      <text x="160" y="170" fill="#00ffff" fontSize="10" opacity="0.6" fontFamily="monospace">{'{ }'}</text>
+      {/* Floating code particles */}
+      <text x="20" y="140" fill="#00ffff" fontSize="14" opacity="0.5" fontFamily="monospace">
+        {'</>'}
+        <animate attributeName="y" values="140;130;140" dur="5s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.5;0.8;0.5" dur="5s" repeatCount="indefinite" />
+      </text>
+      <text x="200" y="120" fill="#ff69b4" fontSize="12" opacity="0.4" fontFamily="monospace">
+        {'{ }'}
+        <animate attributeName="y" values="120;110;120" dur="4s" repeatCount="indefinite" />
+      </text>
+      <text x="30" y="220" fill="#9966ff" fontSize="11" opacity="0.4" fontFamily="monospace">
+        fn()
+        <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite" />
+      </text>
+      <text x="190" y="200" fill="#00ffff" fontSize="10" opacity="0.5" fontFamily="monospace">
+        //
+        <animate attributeName="x" values="190;195;190" dur="6s" repeatCount="indefinite" />
+      </text>
     </svg>
   );
 }
@@ -121,8 +232,8 @@ export default function Home() {
   // Cycle through thoughts
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentThought(prev => (prev + 1) % THOUGHTS.length);
-    }, 8000);
+      setCurrentThought(prev => (prev + 1) % ALL_THOUGHTS.length);
+    }, 6000); // Slightly faster rotation
     return () => clearInterval(interval);
   }, []);
 
@@ -249,7 +360,7 @@ export default function Home() {
               >
                 {/* Avatar container */}
                 <div className={`transition-transform duration-300 ${isHovering ? 'scale-105' : 'scale-100'}`}>
-                  <LobsterAvatar className="w-64 h-64 lg:w-80 lg:h-80" />
+                  <LobsterAvatar className="w-72 h-72 lg:w-96 lg:h-96" isHappy={isHovering} />
                 </div>
                 
                 {/* Speech bubble */}
@@ -257,7 +368,7 @@ export default function Home() {
                   <div className="relative bg-gray-900/95 backdrop-blur rounded-2xl px-5 py-4 border border-gray-700 shadow-xl">
                     <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gray-900 border-l border-t border-gray-700 rotate-45" />
                     <p className="text-sm lg:text-base text-gray-300 font-mono relative z-10 text-center">
-                      "{THOUGHTS[currentThought]}"
+                      "{ALL_THOUGHTS[currentThought]}"
                     </p>
                   </div>
                 </div>
