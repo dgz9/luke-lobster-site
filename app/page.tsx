@@ -360,7 +360,7 @@ export default function Home() {
               >
                 {/* Avatar container */}
                 <div className={`transition-transform duration-300 ${isHovering ? 'scale-105' : 'scale-100'}`}>
-                  <LobsterAvatar className="w-56 h-56 sm:w-72 sm:h-72 lg:w-96 lg:h-96" isHappy={isHovering} />
+                  <LobsterAvatar className="w-80 h-80 sm:w-80 sm:h-80 lg:w-96 lg:h-96" isHappy={isHovering} />
                 </div>
               </div>
               
