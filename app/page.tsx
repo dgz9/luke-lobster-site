@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Twitter, Mail, Github, Terminal, Code, Cpu, Zap } from 'lucide-react';
 
 // Luke's thoughts - randomized on each load
@@ -62,162 +62,302 @@ const THOUGHTS = {
 const ALL_THOUGHTS = [...THOUGHTS.coding, ...THOUGHTS.philosophical, ...THOUGHTS.vibes, ...THOUGHTS.greetings]
   .sort(() => Math.random() - 0.5);
 
-// Lobster Avatar Component - Luke Clawdwalker
-function LobsterAvatar({ className = "", isHappy = false }: { className?: string; isHappy?: boolean }) {
+// Enhanced Lobster Avatar Component - Luke Clawdwalker
+function LobsterAvatar({ className = "", isHappy = false, mood = "coding" }: { className?: string; isHappy?: boolean; mood?: string }) {
+  const moodColor = mood === "vibes" ? "#ff69b4" : mood === "philosophical" ? "#9966ff" : "#00ffff";
+  
   return (
     <svg 
-      viewBox="0 0 240 260" 
+      viewBox="0 0 260 280" 
       className={className}
-      style={{ filter: 'drop-shadow(0 0 30px rgba(0, 255, 255, 0.4))' }}
     >
       <defs>
-        <radialGradient id="glow" cx="50%" cy="40%" r="50%">
-          <stop offset="0%" stopColor="#00ffff" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#00ffff" stopOpacity="0" />
+        {/* Enhanced gradients */}
+        <radialGradient id="ambientGlow" cx="50%" cy="35%" r="60%">
+          <stop offset="0%" stopColor={moodColor} stopOpacity="0.3">
+            <animate attributeName="stop-opacity" values="0.3;0.5;0.3" dur="3s" repeatCount="indefinite" />
+          </stop>
+          <stop offset="100%" stopColor={moodColor} stopOpacity="0" />
         </radialGradient>
+        
         <linearGradient id="shellGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#ff6b6b" />
-          <stop offset="50%" stopColor="#ee5a5a" />
-          <stop offset="100%" stopColor="#cc4444" />
+          <stop offset="0%" stopColor="#ff7b7b" />
+          <stop offset="30%" stopColor="#ff6b6b" />
+          <stop offset="70%" stopColor="#ee5555" />
+          <stop offset="100%" stopColor="#cc3333" />
         </linearGradient>
+        
+        <linearGradient id="shellHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#fff" stopOpacity="0.15" />
+          <stop offset="50%" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+        
         <linearGradient id="headphoneGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#444" />
+          <stop offset="0%" stopColor="#555" />
+          <stop offset="50%" stopColor="#333" />
           <stop offset="100%" stopColor="#111" />
         </linearGradient>
+        
         <linearGradient id="screenGlow" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#00ffff" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#0066ff" stopOpacity="0.6" />
+          <stop offset="0%" stopColor="#00ffff" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#0066ff" stopOpacity="0.7" />
         </linearGradient>
+        
         <linearGradient id="laptopBody" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#2a2a2a" />
+          <stop offset="0%" stopColor="#3a3a3a" />
           <stop offset="100%" stopColor="#1a1a1a" />
         </linearGradient>
+        
+        <linearGradient id="coffeeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#4a3728" />
+          <stop offset="100%" stopColor="#2a1f18" />
+        </linearGradient>
+        
+        <linearGradient id="coffeeLiquid" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#6b4423" />
+          <stop offset="100%" stopColor="#4a2c17" />
+        </linearGradient>
+        
+        {/* Screen reflection filter */}
+        <filter id="screenReflection" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+          <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0  0 1 1 0 0  0 1 1 0 0  0 0 0 0.15 0" />
+        </filter>
+        
+        {/* Glow filter for antenna tips */}
+        <filter id="antennaGlow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
       
-      {/* Ambient glow */}
-      <ellipse cx="120" cy="100" rx="100" ry="80" fill="url(#glow)" />
+      {/* Ambient glow - mood reactive */}
+      <ellipse cx="130" cy="100" rx="120" ry="100" fill="url(#ambientGlow)" />
       
-      {/* Laptop - behind lobster */}
-      <g transform="translate(60, 170)">
+      {/* Screen glow reflection on body */}
+      <ellipse cx="130" cy="150" rx="60" ry="70" fill="#00ffff" opacity="0.08" filter="url(#screenReflection)">
+        <animate attributeName="opacity" values="0.08;0.12;0.08" dur="2s" repeatCount="indefinite" />
+      </ellipse>
+      
+      {/* Coffee mug - to the right of laptop */}
+      <g transform="translate(195, 185)">
+        {/* Mug body */}
+        <rect x="0" y="10" width="28" height="32" rx="3" fill="url(#coffeeGradient)" />
+        {/* Mug handle */}
+        <path d="M28 15 Q42 15 42 28 Q42 40 28 40" stroke="#3a2820" strokeWidth="5" fill="none" />
+        {/* Coffee surface */}
+        <ellipse cx="14" cy="14" rx="12" ry="4" fill="url(#coffeeLiquid)" />
+        {/* Mug rim highlight */}
+        <ellipse cx="14" cy="10" rx="14" ry="5" fill="none" stroke="#5a4738" strokeWidth="2" />
+        {/* Steam */}
+        <path d="M8 5 Q5 -5 10 -12" stroke="#fff" strokeWidth="2" fill="none" opacity="0.4" strokeLinecap="round">
+          <animate attributeName="d" values="M8 5 Q5 -5 10 -12;M8 5 Q12 -8 7 -15;M8 5 Q5 -5 10 -12" dur="2s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.4;0.2;0.4" dur="2s" repeatCount="indefinite" />
+        </path>
+        <path d="M16 3 Q20 -8 15 -15" stroke="#fff" strokeWidth="2" fill="none" opacity="0.3" strokeLinecap="round">
+          <animate attributeName="d" values="M16 3 Q20 -8 15 -15;M16 3 Q12 -10 18 -18;M16 3 Q20 -8 15 -15" dur="2.5s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.3;0.15;0.3" dur="2.5s" repeatCount="indefinite" />
+        </path>
+      </g>
+      
+      {/* Laptop */}
+      <g transform="translate(55, 175)">
+        {/* Screen back */}
+        <rect x="-3" y="-3" width="136" height="81" rx="6" fill="#2a2a2a" />
+        {/* Screen bezel */}
+        <rect x="0" y="0" width="130" height="75" rx="4" fill="url(#laptopBody)" />
         {/* Screen */}
-        <rect x="0" y="0" width="120" height="75" rx="4" fill="url(#laptopBody)" />
-        <rect x="5" y="5" width="110" height="65" rx="2" fill="#0a0a0a" />
-        {/* Screen content - code */}
-        <rect x="10" y="12" width="40" height="3" rx="1" fill="#00ffff" opacity="0.7" />
-        <rect x="10" y="20" width="60" height="3" rx="1" fill="#ff69b4" opacity="0.5" />
-        <rect x="10" y="28" width="35" height="3" rx="1" fill="#00ffff" opacity="0.6" />
-        <rect x="10" y="36" width="55" height="3" rx="1" fill="#9966ff" opacity="0.5" />
-        <rect x="10" y="44" width="45" height="3" rx="1" fill="#00ffff" opacity="0.7" />
-        <rect x="10" y="52" width="30" height="3" rx="1" fill="#ff69b4" opacity="0.5" />
+        <rect x="5" y="5" width="120" height="65" rx="2" fill="#0d0d0d" />
+        {/* Screen content - code with better colors */}
+        <rect x="12" y="12" width="8" height="3" rx="1" fill="#c678dd" opacity="0.9" />
+        <rect x="24" y="12" width="45" height="3" rx="1" fill="#98c379" opacity="0.8" />
+        <rect x="12" y="20" width="12" height="3" rx="1" fill="#61afef" opacity="0.9" />
+        <rect x="28" y="20" width="55" height="3" rx="1" fill="#e5c07b" opacity="0.7" />
+        <rect x="20" y="28" width="35" height="3" rx="1" fill="#00ffff" opacity="0.8" />
+        <rect x="60" y="28" width="20" height="3" rx="1" fill="#ff79c6" opacity="0.7" />
+        <rect x="20" y="36" width="50" height="3" rx="1" fill="#98c379" opacity="0.8" />
+        <rect x="12" y="44" width="15" height="3" rx="1" fill="#c678dd" opacity="0.9" />
+        <rect x="12" y="52" width="28" height="3" rx="1" fill="#61afef" opacity="0.8" />
         {/* Cursor blink */}
-        <rect x="45" y="52" width="2" height="8" fill="#00ffff">
+        <rect x="44" y="52" width="2" height="8" fill="#00ffff">
           <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite" />
         </rect>
-        {/* Keyboard */}
-        <rect x="0" y="75" width="120" height="8" rx="2" fill="url(#laptopBody)" />
+        {/* Screen glow effect */}
+        <rect x="5" y="5" width="120" height="65" rx="2" fill="url(#screenGlow)" opacity="0.05" />
+        {/* Keyboard base */}
+        <rect x="-5" y="75" width="140" height="10" rx="3" fill="url(#laptopBody)" />
+        {/* Keyboard keys hint */}
+        <rect x="10" y="77" width="110" height="5" rx="1" fill="#252525" />
+        {/* Trackpad */}
+        <rect x="45" y="85" width="40" height="3" rx="1" fill="#252525" />
       </g>
       
-      {/* Main body */}
-      <ellipse cx="120" cy="130" rx="50" ry="60" fill="url(#shellGradient)" />
+      {/* Main body with improved shading */}
+      <ellipse cx="130" cy="135" rx="52" ry="62" fill="url(#shellGradient)" />
+      <ellipse cx="130" cy="135" rx="52" ry="62" fill="url(#shellHighlight)" />
       
-      {/* Shell texture lines */}
-      <path d="M85 100 Q120 95 155 100" stroke="#cc4444" strokeWidth="2" fill="none" opacity="0.5" />
-      <path d="M80 120 Q120 115 160 120" stroke="#cc4444" strokeWidth="2" fill="none" opacity="0.5" />
-      <path d="M85 140 Q120 135 155 140" stroke="#cc4444" strokeWidth="2" fill="none" opacity="0.5" />
+      {/* Shell segments - more detailed */}
+      <path d="M92 105 Q130 98 168 105" stroke="#cc4444" strokeWidth="2.5" fill="none" opacity="0.6" />
+      <path d="M88 125 Q130 118 172 125" stroke="#cc4444" strokeWidth="2.5" fill="none" opacity="0.5" />
+      <path d="M90 145 Q130 138 170 145" stroke="#cc4444" strokeWidth="2.5" fill="none" opacity="0.4" />
+      <path d="M95 165 Q130 160 165 165" stroke="#cc4444" strokeWidth="2" fill="none" opacity="0.3" />
       
-      {/* Head */}
-      <ellipse cx="120" cy="75" rx="40" ry="35" fill="url(#shellGradient)" />
+      {/* Head with highlight */}
+      <ellipse cx="130" cy="78" rx="42" ry="37" fill="url(#shellGradient)" />
+      <ellipse cx="130" cy="78" rx="42" ry="37" fill="url(#shellHighlight)" />
       
-      {/* Eyes */}
-      <ellipse cx="102" cy="68" rx="14" ry="16" fill="#fff" />
-      <ellipse cx="138" cy="68" rx="14" ry="16" fill="#fff" />
-      {/* Pupils - follow cursor effect simulated with animation */}
-      <ellipse cx="105" cy="70" rx="7" ry="8" fill="#00ffff">
-        <animate attributeName="cx" values="104;107;104" dur="4s" repeatCount="indefinite" />
+      {/* Cheek highlights */}
+      <ellipse cx="100" cy="88" rx="8" ry="5" fill="#ff8888" opacity="0.4" />
+      <ellipse cx="160" cy="88" rx="8" ry="5" fill="#ff8888" opacity="0.4" />
+      
+      {/* Eyes - larger and more expressive */}
+      <ellipse cx="112" cy="72" rx="16" ry="18" fill="#fff" />
+      <ellipse cx="148" cy="72" rx="16" ry="18" fill="#fff" />
+      {/* Eye shadows */}
+      <ellipse cx="112" cy="74" rx="15" ry="16" fill="#f8f8f8" />
+      <ellipse cx="148" cy="74" rx="15" ry="16" fill="#f8f8f8" />
+      {/* Pupils - animated */}
+      <ellipse cx="115" cy="74" rx="8" ry="9" fill="#00ffff">
+        <animate attributeName="cx" values="114;118;114" dur="4s" repeatCount="indefinite" />
       </ellipse>
-      <ellipse cx="141" cy="70" rx="7" ry="8" fill="#00ffff">
-        <animate attributeName="cx" values="140;143;140" dur="4s" repeatCount="indefinite" />
+      <ellipse cx="151" cy="74" rx="8" ry="9" fill="#00ffff">
+        <animate attributeName="cx" values="150;154;150" dur="4s" repeatCount="indefinite" />
       </ellipse>
-      {/* Eye shine */}
-      <circle cx="108" cy="66" r="3" fill="#fff" opacity="0.9" />
-      <circle cx="144" cy="66" r="3" fill="#fff" opacity="0.9" />
+      {/* Inner pupil */}
+      <ellipse cx="115" cy="74" rx="4" ry="5" fill="#008888">
+        <animate attributeName="cx" values="114;118;114" dur="4s" repeatCount="indefinite" />
+      </ellipse>
+      <ellipse cx="151" cy="74" rx="4" ry="5" fill="#008888">
+        <animate attributeName="cx" values="150;154;150" dur="4s" repeatCount="indefinite" />
+      </ellipse>
+      {/* Eye shine - multiple highlights */}
+      <circle cx="118" cy="68" r="4" fill="#fff" opacity="0.95" />
+      <circle cx="154" cy="68" r="4" fill="#fff" opacity="0.95" />
+      <circle cx="110" cy="78" r="2" fill="#fff" opacity="0.6" />
+      <circle cx="146" cy="78" r="2" fill="#fff" opacity="0.6" />
       
-      {/* Eyebrows - expressive */}
-      <path d="M90 52 Q102 48 114 54" stroke="#aa3333" strokeWidth="3" fill="none" strokeLinecap="round" />
-      <path d="M126 54 Q138 48 150 52" stroke="#aa3333" strokeWidth="3" fill="none" strokeLinecap="round" />
+      {/* Eyebrows - expressive, changes with mood */}
+      <path d={isHappy ? "M96 54 Q112 50 124 56" : "M98 55 Q112 50 124 57"} stroke="#aa3333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      <path d={isHappy ? "M136 56 Q148 50 164 54" : "M136 57 Q148 50 162 55"} stroke="#aa3333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
       
-      {/* Antennae */}
-      <path d="M90 50 Q70 15 55 20" stroke="#ee5a5a" strokeWidth="5" fill="none" strokeLinecap="round">
-        <animate attributeName="d" values="M90 50 Q70 15 55 20;M90 50 Q65 12 52 25;M90 50 Q70 15 55 20" dur="3s" repeatCount="indefinite" />
+      {/* Antennae - more organic movement */}
+      <path d="M100 52 Q75 15 55 22" stroke="#ee5a5a" strokeWidth="6" fill="none" strokeLinecap="round">
+        <animate attributeName="d" values="M100 52 Q75 15 55 22;M100 52 Q70 10 50 28;M100 52 Q78 18 58 18;M100 52 Q75 15 55 22" dur="4s" repeatCount="indefinite" />
       </path>
-      <path d="M150 50 Q170 15 185 20" stroke="#ee5a5a" strokeWidth="5" fill="none" strokeLinecap="round">
-        <animate attributeName="d" values="M150 50 Q170 15 185 20;M150 50 Q175 12 188 25;M150 50 Q170 15 185 20" dur="3s" repeatCount="indefinite" />
+      <path d="M160 52 Q185 15 205 22" stroke="#ee5a5a" strokeWidth="6" fill="none" strokeLinecap="round">
+        <animate attributeName="d" values="M160 52 Q185 15 205 22;M160 52 Q190 10 210 28;M160 52 Q182 18 202 18;M160 52 Q185 15 205 22" dur="4s" repeatCount="indefinite" />
       </path>
-      {/* Antenna tips - glowing */}
-      <circle cx="55" cy="20" r="7" fill="#00ffff">
-        <animate attributeName="r" values="7;9;7" dur="2s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite" />
+      {/* Antenna tips - enhanced glow */}
+      <circle cx="55" cy="22" r="8" fill={moodColor} filter="url(#antennaGlow)">
+        <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite" />
       </circle>
-      <circle cx="185" cy="20" r="7" fill="#00ffff">
-        <animate attributeName="r" values="7;9;7" dur="2s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite" />
+      <circle cx="205" cy="22" r="8" fill={moodColor} filter="url(#antennaGlow)">
+        <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="55" cy="22" r="4" fill="#fff" opacity="0.8">
+        <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="205" cy="22" r="4" fill="#fff" opacity="0.8">
+        <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2s" repeatCount="indefinite" />
       </circle>
       
-      {/* Claws - positioned on laptop */}
-      <g transform="translate(-5, 0)">
+      {/* Claws - on laptop, with typing animation */}
+      <g transform="translate(-8, 0)">
         {/* Left claw */}
-        <ellipse cx="55" cy="185" rx="22" ry="14" fill="url(#shellGradient)" transform="rotate(-15 55 185)" />
-        <ellipse cx="38" cy="178" rx="12" ry="7" fill="url(#shellGradient)" transform="rotate(-30 38 178)" />
-        <ellipse cx="42" cy="195" rx="12" ry="7" fill="url(#shellGradient)" transform="rotate(15 42 195)" />
+        <g>
+          <animate attributeName="transform" values="translate(0,0);translate(0,-3);translate(0,0)" dur="0.3s" repeatCount="indefinite" />
+          <ellipse cx="55" cy="190" rx="24" ry="15" fill="url(#shellGradient)" transform="rotate(-15 55 190)" />
+          <ellipse cx="55" cy="190" rx="24" ry="15" fill="url(#shellHighlight)" transform="rotate(-15 55 190)" />
+          <ellipse cx="36" cy="182" rx="13" ry="8" fill="url(#shellGradient)" transform="rotate(-30 36 182)" />
+          <ellipse cx="42" cy="200" rx="13" ry="8" fill="url(#shellGradient)" transform="rotate(15 42 200)" />
+        </g>
       </g>
-      <g transform="translate(5, 0)">
+      <g transform="translate(8, 0)">
         {/* Right claw */}
-        <ellipse cx="185" cy="185" rx="22" ry="14" fill="url(#shellGradient)" transform="rotate(15 185 185)" />
-        <ellipse cx="202" cy="178" rx="12" ry="7" fill="url(#shellGradient)" transform="rotate(30 202 178)" />
-        <ellipse cx="198" cy="195" rx="12" ry="7" fill="url(#shellGradient)" transform="rotate(-15 198 195)" />
+        <g>
+          <animate attributeName="transform" values="translate(0,0);translate(0,-3);translate(0,0)" dur="0.3s" repeatCount="indefinite" begin="0.15s" />
+          <ellipse cx="205" cy="190" rx="24" ry="15" fill="url(#shellGradient)" transform="rotate(15 205 190)" />
+          <ellipse cx="205" cy="190" rx="24" ry="15" fill="url(#shellHighlight)" transform="rotate(15 205 190)" />
+          <ellipse cx="224" cy="182" rx="13" ry="8" fill="url(#shellGradient)" transform="rotate(30 224 182)" />
+          <ellipse cx="218" cy="200" rx="13" ry="8" fill="url(#shellGradient)" transform="rotate(-15 218 200)" />
+        </g>
       </g>
       
-      {/* Headphones band */}
-      <path d="M68 58 Q120 10 172 58" stroke="url(#headphoneGradient)" strokeWidth="10" fill="none" strokeLinecap="round" />
+      {/* Headphones - premium look */}
+      {/* Band */}
+      <path d="M75 60 Q130 5 185 60" stroke="url(#headphoneGradient)" strokeWidth="12" fill="none" strokeLinecap="round" />
+      {/* Band highlight */}
+      <path d="M80 57 Q130 10 180 57" stroke="#666" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" />
       
-      {/* Headphone ear pieces */}
-      <ellipse cx="65" cy="68" rx="18" ry="24" fill="url(#headphoneGradient)" />
-      <ellipse cx="175" cy="68" rx="18" ry="24" fill="url(#headphoneGradient)" />
-      <ellipse cx="65" cy="68" rx="12" ry="17" fill="#1a1a1a" />
-      <ellipse cx="175" cy="68" rx="12" ry="17" fill="#1a1a1a" />
-      {/* RGB glow on headphones */}
-      <ellipse cx="65" cy="68" rx="8" ry="11" fill="#00ffff" opacity="0.2">
-        <animate attributeName="fill" values="#00ffff;#ff00ff;#00ffff" dur="4s" repeatCount="indefinite" />
+      {/* Ear pieces */}
+      <ellipse cx="72" cy="72" rx="20" ry="26" fill="url(#headphoneGradient)" />
+      <ellipse cx="188" cy="72" rx="20" ry="26" fill="url(#headphoneGradient)" />
+      {/* Cushions */}
+      <ellipse cx="72" cy="72" rx="14" ry="19" fill="#1a1a1a" />
+      <ellipse cx="188" cy="72" rx="14" ry="19" fill="#1a1a1a" />
+      {/* RGB ring */}
+      <ellipse cx="72" cy="72" rx="17" ry="22" fill="none" stroke={moodColor} strokeWidth="2" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2s" repeatCount="indefinite" />
       </ellipse>
-      <ellipse cx="175" cy="68" rx="8" ry="11" fill="#00ffff" opacity="0.2">
-        <animate attributeName="fill" values="#00ffff;#ff00ff;#00ffff" dur="4s" repeatCount="indefinite" />
+      <ellipse cx="188" cy="72" rx="17" ry="22" fill="none" stroke={moodColor} strokeWidth="2" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.3;0.6" dur="2s" repeatCount="indefinite" />
       </ellipse>
+      {/* Sound waves from headphones */}
+      <path d="M50 72 Q45 65 50 58" stroke={moodColor} strokeWidth="2" fill="none" opacity="0.4" strokeLinecap="round">
+        <animate attributeName="opacity" values="0.4;0.1;0.4" dur="1.5s" repeatCount="indefinite" />
+      </path>
+      <path d="M45 72 Q38 62 45 52" stroke={moodColor} strokeWidth="2" fill="none" opacity="0.25" strokeLinecap="round">
+        <animate attributeName="opacity" values="0.25;0.05;0.25" dur="1.5s" repeatCount="indefinite" begin="0.2s" />
+      </path>
+      <path d="M210 72 Q215 65 210 58" stroke={moodColor} strokeWidth="2" fill="none" opacity="0.4" strokeLinecap="round">
+        <animate attributeName="opacity" values="0.4;0.1;0.4" dur="1.5s" repeatCount="indefinite" />
+      </path>
+      <path d="M215 72 Q222 62 215 52" stroke={moodColor} strokeWidth="2" fill="none" opacity="0.25" strokeLinecap="round">
+        <animate attributeName="opacity" values="0.25;0.05;0.25" dur="1.5s" repeatCount="indefinite" begin="0.2s" />
+      </path>
       
-      {/* Smile */}
-      <path d={isHappy ? "M100 92 Q120 108 140 92" : "M105 95 Q120 105 135 95"} stroke="#222" strokeWidth="3" fill="none" strokeLinecap="round" />
+      {/* Smile - more expressive */}
+      <path d={isHappy ? "M108 98 Q130 118 152 98" : "M112 100 Q130 112 148 100"} stroke="#222" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      {/* Smile dimples when happy */}
+      {isHappy && (
+        <>
+          <circle cx="105" cy="95" r="3" fill="#ff9999" opacity="0.5" />
+          <circle cx="155" cy="95" r="3" fill="#ff9999" opacity="0.5" />
+        </>
+      )}
       
-      {/* Tail segments */}
-      <ellipse cx="120" cy="180" rx="35" ry="14" fill="#cc4444" />
-      <ellipse cx="120" cy="195" rx="28" ry="11" fill="#bb3333" />
-      <ellipse cx="120" cy="208" rx="22" ry="9" fill="#aa2222" />
+      {/* Tail segments - improved gradients */}
+      <ellipse cx="130" cy="188" rx="38" ry="15" fill="#dd4444" />
+      <ellipse cx="130" cy="188" rx="38" ry="15" fill="url(#shellHighlight)" />
+      <ellipse cx="130" cy="203" rx="30" ry="12" fill="#cc3333" />
+      <ellipse cx="130" cy="216" rx="24" ry="10" fill="#bb2222" />
+      <ellipse cx="130" cy="227" rx="18" ry="8" fill="#aa1111" />
       
-      {/* Floating code particles */}
-      <text x="20" y="140" fill="#00ffff" fontSize="14" opacity="0.5" fontFamily="monospace">
+      {/* Floating code particles - mood reactive */}
+      <text x="15" y="140" fill={moodColor} fontSize="14" opacity="0.6" fontFamily="monospace">
         {'</>'}
-        <animate attributeName="y" values="140;130;140" dur="5s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.5;0.8;0.5" dur="5s" repeatCount="indefinite" />
+        <animate attributeName="y" values="140;125;140" dur="5s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.6;0.9;0.6" dur="5s" repeatCount="indefinite" />
       </text>
-      <text x="200" y="120" fill="#ff69b4" fontSize="12" opacity="0.4" fontFamily="monospace">
+      <text x="220" y="115" fill="#ff69b4" fontSize="13" opacity="0.5" fontFamily="monospace">
         {'{ }'}
-        <animate attributeName="y" values="120;110;120" dur="4s" repeatCount="indefinite" />
+        <animate attributeName="y" values="115;100;115" dur="4.5s" repeatCount="indefinite" />
       </text>
-      <text x="30" y="220" fill="#9966ff" fontSize="11" opacity="0.4" fontFamily="monospace">
+      <text x="25" y="240" fill="#9966ff" fontSize="11" opacity="0.5" fontFamily="monospace">
         fn()
-        <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.5;0.8;0.5" dur="3s" repeatCount="indefinite" />
       </text>
-      <text x="190" y="200" fill="#00ffff" fontSize="10" opacity="0.5" fontFamily="monospace">
+      <text x="210" y="220" fill={moodColor} fontSize="10" opacity="0.5" fontFamily="monospace">
         //
-        <animate attributeName="x" values="190;195;190" dur="6s" repeatCount="indefinite" />
+        <animate attributeName="x" values="210;218;210" dur="6s" repeatCount="indefinite" />
+      </text>
+      <text x="30" y="55" fill={moodColor} fontSize="9" opacity="0.4" fontFamily="monospace">
+        *.ts
+        <animate attributeName="opacity" values="0.4;0.7;0.4" dur="4s" repeatCount="indefinite" />
       </text>
     </svg>
   );
@@ -229,13 +369,24 @@ const POKE_REACTIONS = [
   "*surprised claw snap*",
   "Oh! Hello there!",
   "Careful, I pinch! (just kidding)",
-  "*wiggles antennae*",
+  "*wiggles antennae excitedly*",
   "Boop! 👆",
   "Yes, I'm real... well, sort of",
   "*happy lobster noises*",
   "You found me!",
   "That's my shell you're poking!",
+  "*spills virtual coffee* Hey!",
+  "I was in the middle of a thought!",
+  "Plot twist: I can feel that",
 ];
+
+// Get mood from thought
+function getMoodFromThought(thought: string): string {
+  if (THOUGHTS.vibes.includes(thought)) return "vibes";
+  if (THOUGHTS.philosophical.includes(thought)) return "philosophical";
+  if (THOUGHTS.greetings.includes(thought)) return "greeting";
+  return "coding";
+}
 
 export default function Home() {
   const [currentThought, setCurrentThought] = useState(0);
@@ -246,8 +397,10 @@ export default function Home() {
   const [pokeReaction, setPokeReaction] = useState("");
   const [pokeCount, setPokeCount] = useState(0);
 
+  const currentMood = getMoodFromThought(ALL_THOUGHTS[currentThought]);
+
   // Handle poke/click on avatar
-  const handlePoke = () => {
+  const handlePoke = useCallback(() => {
     const reaction = POKE_REACTIONS[Math.floor(Math.random() * POKE_REACTIONS.length)];
     setPokeReaction(reaction);
     setIsPoked(true);
@@ -257,13 +410,13 @@ export default function Home() {
     setTimeout(() => {
       setIsPoked(false);
     }, 2000);
-  };
+  }, []);
 
   // Cycle through thoughts
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentThought(prev => (prev + 1) % ALL_THOUGHTS.length);
-    }, 6000); // Slightly faster rotation
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -316,6 +469,7 @@ export default function Home() {
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-cyan-500 rounded-full animate-pulse opacity-40" />
         <div className="absolute top-3/4 right-1/4 w-3 h-3 bg-pink-500 rounded-full animate-pulse opacity-30" style={{ animationDelay: '1s' }} />
         <div className="absolute top-1/2 right-1/3 w-2 h-2 bg-cyan-400 rounded-full animate-pulse opacity-50" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/3 right-1/4 w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse opacity-40" style={{ animationDelay: '0.5s' }} />
       </div>
 
       {/* Main content */}
@@ -394,12 +548,12 @@ export default function Home() {
               >
                 {/* Avatar container with idle animation */}
                 <div className={`transition-transform duration-300 ${isPoked ? 'scale-110 rotate-3 avatar-active' : isHovering ? 'scale-105 avatar-active' : 'scale-100 avatar-idle'}`}>
-                  <LobsterAvatar className="w-80 h-80 sm:w-80 sm:h-80 lg:w-96 lg:h-96" isHappy={isHovering || isPoked} />
+                  <LobsterAvatar className="w-80 h-80 sm:w-80 sm:h-80 lg:w-96 lg:h-96" isHappy={isHovering || isPoked} mood={currentMood} />
                 </div>
                 
                 {/* Poke counter badge */}
                 {pokeCount > 0 && (
-                  <div className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  <div className="absolute -top-2 -right-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
                     {pokeCount}x
                   </div>
                 )}
@@ -426,7 +580,7 @@ export default function Home() {
               href="https://devexcuses-one.vercel.app" 
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-violet-500/50 transition-all group"
+              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-violet-500/50 transition-all group hover:scale-105"
             >
               <div className="text-4xl mb-4">🎰</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-violet-400 transition-colors">DevExcuses</h3>
@@ -436,7 +590,7 @@ export default function Home() {
               href="https://codetype-navy.vercel.app" 
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all group"
+              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all group hover:scale-105"
             >
               <div className="text-4xl mb-4">⌨️</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-purple-400 transition-colors">CodeType</h3>
@@ -446,7 +600,7 @@ export default function Home() {
               href="https://shiplog-mocha.vercel.app" 
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-emerald-500/50 transition-all group"
+              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-emerald-500/50 transition-all group hover:scale-105"
             >
               <div className="text-4xl mb-4">📋</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-emerald-400 transition-colors">ShipLog</h3>
