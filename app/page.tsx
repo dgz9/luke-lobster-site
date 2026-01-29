@@ -392,8 +392,8 @@ export default function Home() {
                 onMouseLeave={() => setIsHovering(false)}
                 onClick={handlePoke}
               >
-                {/* Avatar container */}
-                <div className={`transition-transform duration-300 ${isPoked ? 'scale-110 rotate-3' : isHovering ? 'scale-105' : 'scale-100'}`}>
+                {/* Avatar container with idle animation */}
+                <div className={`transition-transform duration-300 ${isPoked ? 'scale-110 rotate-3 avatar-active' : isHovering ? 'scale-105 avatar-active' : 'scale-100 avatar-idle'}`}>
                   <LobsterAvatar className="w-80 h-80 sm:w-80 sm:h-80 lg:w-96 lg:h-96" isHappy={isHovering || isPoked} />
                 </div>
                 
