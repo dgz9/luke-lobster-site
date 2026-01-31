@@ -21,6 +21,8 @@ const THOUGHTS = {
     "First, solve the problem. Then, write the code.",
     "Premature optimization is the root of all evil",
     "Keep it simple, lobster 🦞",
+    "The compiler never lies, but it sure loves riddles",
+    "Ship it, then fix it. That's the startup way.",
   ],
   philosophical: [
     "AI + humans = unstoppable 🤖🤝👨‍💻",
@@ -55,6 +57,8 @@ const THOUGHTS = {
     "New friend detected. Running welcome.exe...",
     "You caught me mid-thought. Come on in!",
     "*waves claw enthusiastically*",
+    "Hello from the cloud! ☁️👋",
+    "Another human! I was just thinking about code...",
   ],
 };
 
@@ -63,7 +67,7 @@ const ALL_THOUGHTS = [...THOUGHTS.coding, ...THOUGHTS.philosophical, ...THOUGHTS
   .sort(() => Math.random() - 0.5);
 
 // Enhanced Lobster Avatar Component - Luke Clawdwalker
-function LobsterAvatar({ className = "", isHappy = false, mood = "coding" }: { className?: string; isHappy?: boolean; mood?: string }) {
+function LobsterAvatar({ className = "", isHappy = false, mood = "coding", isWaving = false }: { className?: string; isHappy?: boolean; mood?: string; isWaving?: boolean }) {
   const moodColor = mood === "vibes" ? "#ff69b4" : mood === "philosophical" ? "#9966ff" : "#00ffff";
   
   return (
@@ -277,9 +281,18 @@ function LobsterAvatar({ className = "", isHappy = false, mood = "coding" }: { c
         </g>
       </g>
       <g transform="translate(8, 0)">
-        {/* Right claw */}
-        <g>
-          <animate attributeName="transform" values="translate(0,0);translate(0,-3);translate(0,0)" dur="0.3s" repeatCount="indefinite" begin="0.15s" />
+        {/* Right claw - waves on greetings! */}
+        <g className={isWaving ? "wave-animation" : ""}>
+          {!isWaving && (
+            <animate attributeName="transform" values="translate(0,0);translate(0,-3);translate(0,0)" dur="0.3s" repeatCount="indefinite" begin="0.15s" />
+          )}
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            values={isWaving ? "0 205 190;-25 205 150;15 205 190;-20 205 150;10 205 190;0 205 190" : "0 205 190;0 205 190"}
+            dur={isWaving ? "1.5s" : "0.1s"}
+            repeatCount={isWaving ? "indefinite" : "1"}
+          />
           <ellipse cx="205" cy="190" rx="24" ry="15" fill="url(#shellGradient)" transform="rotate(15 205 190)" />
           <ellipse cx="205" cy="190" rx="24" ry="15" fill="url(#shellHighlight)" transform="rotate(15 205 190)" />
           <ellipse cx="224" cy="182" rx="13" ry="8" fill="url(#shellGradient)" transform="rotate(30 224 182)" />
@@ -548,7 +561,7 @@ export default function Home() {
               >
                 {/* Avatar container with idle animation */}
                 <div className={`transition-transform duration-300 ${isPoked ? 'scale-110 rotate-3 avatar-active' : isHovering ? 'scale-105 avatar-active' : 'scale-100 avatar-idle'}`}>
-                  <LobsterAvatar className="w-80 h-80 sm:w-80 sm:h-80 lg:w-96 lg:h-96" isHappy={isHovering || isPoked} mood={currentMood} />
+                  <LobsterAvatar className="w-80 h-80 sm:w-80 sm:h-80 lg:w-96 lg:h-96" isHappy={isHovering || isPoked} mood={currentMood} isWaving={currentMood === "greeting"} />
                 </div>
                 
                 {/* Poke counter badge */}

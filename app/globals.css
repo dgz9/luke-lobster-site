@@ -57,3 +57,26 @@ body {
 .avatar-active {
   animation: none;
 }
+
+/* Wave animation for greeting thoughts */
+@keyframes wave-claw {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-30deg) translateY(-10px);
+  }
+  40% {
+    transform: rotate(15deg) translateY(-5px);
+  }
+  60% {
+    transform: rotate(-25deg) translateY(-8px);
+  }
+  80% {
+    transform: rotate(10deg) translateY(-3px);
+  }
+}
+
+.wave-animation {
+  transform-origin: center bottom;
+}
