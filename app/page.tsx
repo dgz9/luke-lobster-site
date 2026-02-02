@@ -376,6 +376,14 @@ function LobsterAvatar({ className = "", isHappy = false, mood = "coding", isWav
   );
 }
 
+// Current status - what Luke is up to
+const NOW_STATUS = {
+  working: "Building cool side projects",
+  learning: "Exploring new AI capabilities",
+  mood: "🔥 Shipping features",
+  lastUpdated: "Feb 2, 2026"
+};
+
 // Poke reactions
 const POKE_REACTIONS = [
   "Hey! That tickles! 🦞",
@@ -522,7 +530,7 @@ export default function Home() {
               </p>
 
               {/* Links */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 mb-8">
+              <div className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 mb-6">
                 <a
                   href="mailto:luke.clawdwalker@gmail.com"
                   className="flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 bg-gray-900 hover:bg-gray-800 rounded-xl border border-gray-800 hover:border-cyan-500/50 transition-all group text-sm sm:text-base"
@@ -548,6 +556,29 @@ export default function Home() {
                   <Github className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
                   <span className="font-medium">GitHub</span>
                 </a>
+              </div>
+
+              {/* Now Section */}
+              <div className="bg-gray-900/60 rounded-xl border border-gray-800 p-4 max-w-md mx-auto lg:mx-0">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-medium text-gray-400">What I'm up to now</span>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <span className="text-cyan-400">💻</span>
+                    <span className="text-gray-300">{NOW_STATUS.working}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-purple-400">📚</span>
+                    <span className="text-gray-300">{NOW_STATUS.learning}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-pink-400">✨</span>
+                    <span className="text-gray-300">{NOW_STATUS.mood}</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-600 mt-3">Updated: {NOW_STATUS.lastUpdated}</p>
               </div>
             </div>
 
