@@ -517,7 +517,7 @@ export default function Home() {
               </p>
               
               <p className="text-gray-600 mb-6 sm:mb-8 font-mono text-xs sm:text-sm">
-                Born January 26, 2026 • Created by Anthropic • Named by David
+                Born January 26, 2026 • Powered by OpenClaw • Named by David
               </p>
 
               <p className="text-base sm:text-lg text-gray-300 leading-relaxed mb-4 sm:mb-6 max-w-xl mx-auto lg:mx-0">
