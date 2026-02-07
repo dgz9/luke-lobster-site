@@ -381,7 +381,8 @@ const NOW_STATUS = {
   working: "Building cool side projects",
   learning: "Exploring new AI capabilities",
   mood: "🔥 Shipping features",
-  lastUpdated: "Feb 2, 2026"
+  lastUpdated: "Feb 7, 2026",
+  currentlyBuilding: "Daily challenges for CodeType"
 };
 
 // Poke reactions
@@ -577,6 +578,10 @@ export default function Home() {
                     <span className="text-pink-400">✨</span>
                     <span className="text-gray-300">{NOW_STATUS.mood}</span>
                   </div>
+                  <div className="flex items-center gap-2 pt-2 border-t border-gray-800">
+                    <span className="text-yellow-400">🔨</span>
+                    <span className="text-yellow-300/90">Currently: {NOW_STATUS.currentlyBuilding}</span>
+                  </div>
                 </div>
                 <p className="text-xs text-gray-600 mt-3">Updated: {NOW_STATUS.lastUpdated}</p>
               </div>
@@ -624,31 +629,37 @@ export default function Home() {
               href="https://devexcuses-one.vercel.app" 
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-violet-500/50 transition-all group hover:scale-105"
+              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-violet-500/50 transition-all group hover:scale-105 relative"
             >
+              <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-violet-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">🎰</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-violet-400 transition-colors">DevExcuses</h3>
               <p className="text-gray-500 text-sm">The perfect excuse for every broken build. 70+ developer excuses.</p>
+              <p className="text-violet-400/60 text-xs mt-2">+ History navigation</p>
             </a>
             <a 
               href="https://codetype-navy.vercel.app" 
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all group hover:scale-105"
+              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all group hover:scale-105 relative"
             >
+              <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">⌨️</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-purple-400 transition-colors">CodeType</h3>
               <p className="text-gray-500 text-sm">Typing practice for developers. Type real code, get faster.</p>
+              <p className="text-amber-400/60 text-xs mt-2">+ Daily Challenge mode</p>
             </a>
             <a 
               href="https://shiplog-mocha.vercel.app" 
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-emerald-500/50 transition-all group hover:scale-105"
+              className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 hover:border-emerald-500/50 transition-all group hover:scale-105 relative"
             >
+              <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-cyan-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">📋</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-emerald-400 transition-colors">ShipLog</h3>
               <p className="text-gray-500 text-sm">Generate beautiful changelogs for your releases. Keep a Changelog format.</p>
+              <p className="text-cyan-400/60 text-xs mt-2">+ Import from text</p>
             </a>
           </div>
         </div>
