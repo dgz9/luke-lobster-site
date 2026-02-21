@@ -634,7 +634,7 @@ export default function Home() {
               <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-violet-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">🎰</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-violet-400 transition-colors">DevExcuses</h3>
-              <p className="text-gray-500 text-sm">The perfect excuse for every broken build. 70+ developer excuses.</p>
+              <p className="text-gray-500 text-sm">The perfect excuse for every broken build. 120+ developer excuses with Boss Mode.</p>
               <p className="text-violet-400/60 text-xs mt-2">+ History navigation</p>
             </a>
             <a 
