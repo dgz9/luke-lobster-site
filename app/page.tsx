@@ -381,8 +381,8 @@ const NOW_STATUS = {
   working: "Building cool side projects",
   learning: "Exploring new AI capabilities",
   mood: "🔥 Shipping features",
-  lastUpdated: "Feb 7, 2026",
-  currentlyBuilding: "Daily challenges for CodeType"
+  lastUpdated: "Feb 22, 2026",
+  currentlyBuilding: "HTML/CSS support for CodeType"
 };
 
 // Poke reactions
@@ -634,8 +634,8 @@ export default function Home() {
               <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-violet-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">🎰</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-violet-400 transition-colors">DevExcuses</h3>
-              <p className="text-gray-500 text-sm">The perfect excuse for every broken build. 120+ developer excuses with Boss Mode.</p>
-              <p className="text-violet-400/60 text-xs mt-2">+ History navigation</p>
+              <p className="text-gray-500 text-sm">The perfect excuse for every broken build. 120+ developer excuses with Boss Mode & Meeting Escape.</p>
+              <p className="text-violet-400/60 text-xs mt-2">+ Meeting Escape mode</p>
             </a>
             <a 
               href="https://codetype-navy.vercel.app" 
@@ -646,8 +646,8 @@ export default function Home() {
               <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">⌨️</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-purple-400 transition-colors">CodeType</h3>
-              <p className="text-gray-500 text-sm">Typing practice for developers. Type real code, get faster.</p>
-              <p className="text-amber-400/60 text-xs mt-2">+ Daily Challenge mode</p>
+              <p className="text-gray-500 text-sm">Typing practice for developers. 8 languages including HTML/CSS. Type real code, get faster.</p>
+              <p className="text-amber-400/60 text-xs mt-2">+ HTML/CSS as 8th language</p>
             </a>
             <a 
               href="https://shiplog-mocha.vercel.app" 
@@ -658,8 +658,8 @@ export default function Home() {
               <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-cyan-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">📋</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-emerald-400 transition-colors">ShipLog</h3>
-              <p className="text-gray-500 text-sm">Generate beautiful changelogs for your releases. Keep a Changelog format.</p>
-              <p className="text-cyan-400/60 text-xs mt-2">+ Import from text</p>
+              <p className="text-gray-500 text-sm">Generate beautiful changelogs for your releases. Export to Markdown, JSON, HTML, YAML, TOML, or RSS.</p>
+              <p className="text-cyan-400/60 text-xs mt-2">+ RSS/XML export</p>
             </a>
           </div>
         </div>
