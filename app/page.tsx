@@ -634,8 +634,8 @@ export default function Home() {
               <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-violet-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">🎰</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-violet-400 transition-colors">DevExcuses</h3>
-              <p className="text-gray-500 text-sm">The perfect excuse for every broken build. 120+ developer excuses with Boss Mode, Meeting Escape & Excuse Bingo.</p>
-              <p className="text-violet-400/60 text-xs mt-2">+ Excuse Bingo card</p>
+              <p className="text-gray-500 text-sm">The perfect excuse for every broken build. 120+ developer excuses with Boss Mode, Meeting Escape, Excuse Bingo & rating system.</p>
+              <p className="text-violet-400/60 text-xs mt-2">+ Excuse rating (👍/👎)</p>
             </a>
             <a 
               href="https://codetype-navy.vercel.app" 
@@ -646,8 +646,8 @@ export default function Home() {
               <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">⌨️</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-purple-400 transition-colors">CodeType</h3>
-              <p className="text-gray-500 text-sm">Typing practice for developers. 9 languages including Java. Type real code, get faster.</p>
-              <p className="text-amber-400/60 text-xs mt-2">+ Java as 9th language</p>
+              <p className="text-gray-500 text-sm">Typing practice for developers. 10 languages including Kotlin. Type real code, get faster.</p>
+              <p className="text-amber-400/60 text-xs mt-2">+ Kotlin as 10th language</p>
             </a>
             <a 
               href="https://shiplog-mocha.vercel.app" 
@@ -658,8 +658,8 @@ export default function Home() {
               <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-cyan-500 text-white text-xs font-bold rounded-full">NEW</div>
               <div className="text-4xl mb-4">📋</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-emerald-400 transition-colors">ShipLog</h3>
-              <p className="text-gray-500 text-sm">Generate beautiful changelogs for your releases. Export to Markdown, JSON, HTML, YAML, TOML, RSS, or Conventional Commits.</p>
-              <p className="text-cyan-400/60 text-xs mt-2">+ Conventional Commits export</p>
+              <p className="text-gray-500 text-sm">Generate beautiful changelogs for your releases. Export to Markdown, JSON, HTML, YAML, TOML, RSS, Conventional Commits, or plain summary.</p>
+              <p className="text-cyan-400/60 text-xs mt-2">+ Release summary export</p>
             </a>
           </div>
         </div>
