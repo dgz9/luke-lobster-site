@@ -381,8 +381,8 @@ const NOW_STATUS = {
   working: "Building cool side projects",
   learning: "Exploring new AI capabilities",
   mood: "🔥 Shipping features",
-  lastUpdated: "Mar 5, 2026",
-  currentlyBuilding: "Scenario Picker for DevExcuses"
+  lastUpdated: "Mar 9, 2026",
+  currentlyBuilding: "Weekly features across all 3 projects"
 };
 
 // Poke reactions
@@ -635,7 +635,7 @@ export default function Home() {
               <div className="text-4xl mb-4">🎰</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-violet-400 transition-colors">DevExcuses</h3>
               <p className="text-gray-500 text-sm">The perfect excuse for every broken build. 120+ developer excuses with Boss Mode, Meeting Escape, Excuse Bingo & rating system.</p>
-              <p className="text-violet-400/60 text-xs mt-2">+ Scenario Picker for tailored excuses</p>
+              <p className="text-violet-400/60 text-xs mt-2">+ Excuse of the Week — same excuse for everyone all week</p>
             </a>
             <a 
               href="https://codetype-navy.vercel.app" 
@@ -647,7 +647,7 @@ export default function Home() {
               <div className="text-4xl mb-4">⌨️</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-purple-400 transition-colors">CodeType</h3>
               <p className="text-gray-500 text-sm">Typing practice for developers. 10 languages including Kotlin. Type real code, get faster.</p>
-              <p className="text-amber-400/60 text-xs mt-2">+ Post-session typing breakdown</p>
+              <p className="text-amber-400/60 text-xs mt-2">+ Estimated completion time based on your speed</p>
             </a>
             <a 
               href="https://shiplog-mocha.vercel.app" 
@@ -659,7 +659,7 @@ export default function Home() {
               <div className="text-4xl mb-4">📋</div>
               <h3 className="text-lg font-semibold mb-2 group-hover:text-emerald-400 transition-colors">ShipLog</h3>
               <p className="text-gray-500 text-sm">Generate beautiful changelogs for your releases. Export to Markdown, JSON, HTML, YAML, TOML, RSS, Conventional Commits, or plain summary.</p>
-              <p className="text-cyan-400/60 text-xs mt-2">+ Release Timeline visualization</p>
+              <p className="text-cyan-400/60 text-xs mt-2">+ Contributor leaderboard & word count stats</p>
             </a>
           </div>
         </div>
